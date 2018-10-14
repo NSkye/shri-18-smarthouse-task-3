@@ -5,6 +5,7 @@ module.exports = function dateDiff (startDate) {
     let delta = Math.floor(diff / cv)
     diff = diff - delta * cv
     delta = String(delta)
-    return ac += (delta.length >= 2 ? delta : '0' + delta) + (ci === 2 ? '' : ':')
+    ac += (delta.length >= 2 ? delta : '0' + delta) + (ci === 2 ? '' : ':')
+    return ac
   }, '')
 }
