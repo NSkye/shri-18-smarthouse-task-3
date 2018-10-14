@@ -1,21 +1,19 @@
 'use strict'
 
 const express = require('express')
-const dateDiff = require('./libs/date-diff')
-const events = require('./data/events.json')
+
+const createStatusHandler = require('./handlers/status')
+const eventsHandler = require('./handlers/events')
+const handle404 = require('./middleware/not-found')
+const handleError = require('./middleware/error')
 
 const app = express()
 const port = 8000
 
-const startTime = Date.now()
+app.get('/status', createStatusHandler(Date.now()))
+app.get('/api/events', eventsHandler)
 
-app.get('/status', (_, res) => {
-  res.setHeader('Content-Type', 'text/plain')
-  res.send(dateDiff(startTime))
-})
-app.get('/api/events', (_, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.send(JSON.stringify(events))
-})
+app.use(handle404)
+app.use(handleError)
 
-app.listen(port, () => console.log('Listening ...'))
+app.listen(port, () => console.log(`Server is listening on port ${port}`))
