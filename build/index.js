@@ -1,0 +1,13 @@
+'use strict';
+var express = require('express');
+var createStatusHandler = require('./handlers/status');
+var eventsHandler = require('./handlers/events');
+var handle404 = require('./middleware/not-found');
+var handleError = require('./middleware/error');
+var app = express();
+var port = 8000;
+app.get('/status', createStatusHandler(Date.now()));
+app.get('/api/events', eventsHandler);
+app.use(handle404);
+app.use(handleError);
+app.listen(port, function () { return console.log("Server is listening on port " + port); });
